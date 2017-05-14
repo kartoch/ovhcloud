@@ -1,2 +1,4 @@
 ovh.conf
 .idea/
+.eggs/
+ovhcloud.egg-info/
