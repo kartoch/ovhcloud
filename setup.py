@@ -12,7 +12,7 @@ setup(
     name='ovhcloud',
 
     use_scm_version=True,
-    setup_requires=['setuptools_scm'],
+    setup_requires=['setuptools_scm', 'pytest-runner'],
 
     description='A command-line tool for OVH API',
     long_description=long_description,
@@ -29,22 +29,21 @@ setup(
         'Intended Audience :: Developers',
         'Topic :: Software Development :: Build Tools',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.2',
+        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
     ],
 
-    keywords='cloud',
+    keywords='cloud ovh',
 
-    packages=find_packages(exclude=['contrib', 'docs', 'tests']),
+    packages=find_packages(exclude=['docs', 'tests']),
+
+    package_data={'ovhcloud': ['api.yaml']},
 
     install_requires=['ovh'],
 
-    extras_require={
-        'dev': ['check-manifest'],
-        'test': ['coverage'],
-    },
-
-    package_data={},
-    data_files=[],
+    tests_require=['pytest'],
 
     entry_points={
         'console_scripts': [
