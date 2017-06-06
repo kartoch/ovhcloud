@@ -37,7 +37,7 @@ setup(
 
     keywords='cloud ovh',
 
-    packages=find_packages(exclude=['docs', 'tests']),
+    packages=find_packages(exclude=['tests']),
 
     package_data={'ovhcloud': ['api.yaml']},
 
