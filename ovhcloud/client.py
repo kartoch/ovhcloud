@@ -14,12 +14,12 @@ class OVHClient(object):
 
     _action_cls = [VersionCommand, ApiCacheCommand]
 
-    def __init__(self, args):
+    def __init__(self, args, ovh_client=None):
         self._actions = {cls.name: cls(self) for cls in self._action_cls}
         self._parse_arguments(args)
         for action in self._actions.values():
             action.set_logging()
-        self._ovh_client = ovh.Client()
+        self._ovh_client = ovh.Client() if ovh_client is None else ovh_client
 
     def _parse_arguments(self, args):
         parser = argparse.ArgumentParser(prog='ovhcloud')
