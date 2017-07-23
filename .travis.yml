@@ -6,7 +6,7 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
-script: python tests/test_all_of_the_units.py
+script: python setup test
 branches:
   only:
     - master
