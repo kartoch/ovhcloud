@@ -1,17 +1,15 @@
-import logging
 import sys
 
 import ovhcloud
+from ovhcloud.commands import Command
 
 
-class VersionCommand(object):
+class VersionCommand(Command):
     name = 'version'
-
-    log = logging.getLogger(__name__)
 
     def parser(self, parser):
         pass
 
-    def action(self, info):
+    def action(self):
         print(ovhcloud.__version__)
         sys.exit(0)

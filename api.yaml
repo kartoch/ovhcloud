@@ -1,5 +1,0 @@
-me:
-  url: /me
-  post_me_ssh:
-    url: /sshKey
-    method: GET
