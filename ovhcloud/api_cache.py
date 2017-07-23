@@ -15,7 +15,7 @@ class ApiCacheCommand(Command):
 
     def _download_references(self, path):
         self.log.debug("caching %s " % path)
-        json = self._client._ovh_client.get(path)
+        json = self._client._ovh_client.get(path, _need_auth=False)
         return json
 
     def _cache_references(self):
