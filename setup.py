@@ -43,7 +43,7 @@ setup(
 
     install_requires=['ovh'],
 
-    tests_require=['pytest'],
+    tests_require=['pytest', 'pytest-capturelog'],
 
     entry_points={
         'console_scripts': [
