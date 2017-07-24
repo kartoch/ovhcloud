@@ -9,10 +9,8 @@ python:
   - "3.6"
 install:
   pip install .
-before_script:
-  cd ovhcloud
 script:
-  python setup test
+  python setup.py test
 branches:
   only:
     - master
