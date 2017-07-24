@@ -1,4 +1,6 @@
+__pycache__
 ovh.conf
+dummy_ovh.conf
 .idea/
 .eggs/
 ovhcloud.egg-info/
