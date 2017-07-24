@@ -12,7 +12,8 @@ setup(
     name='ovhcloud',
 
     use_scm_version=True,
-    setup_requires=['setuptools_scm', 'pytest-runner'],
+
+    setup_requires=['setuptools_scm==1.15.5', 'pytest-runner==2.11.1'],
 
     description='A command-line tool for OVH API',
     long_description=long_description,
@@ -41,9 +42,9 @@ setup(
 
     package_data={'ovhcloud': ['api.yaml']},
 
-    install_requires=['ovh'],
+    install_requires=['ovh==0.4.7', 'PyYAML==3.12'],
 
-    tests_require=['pytest', 'pytest-capturelog'],
+    tests_require=['pytest==3.0.7', 'pytest-capturelog==0.7'],
 
     entry_points={
         'console_scripts': [
