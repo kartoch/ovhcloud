@@ -44,7 +44,7 @@ setup(
 
     install_requires=['ovh==0.4.7', 'PyYAML==3.12'],
 
-    tests_require=['pytest==3.0.7', 'pytest-capturelog==0.7'],
+    tests_require=['pytest>=3.0.7', 'pytest-capturelog==0.7'],
 
     entry_points={
         'console_scripts': [
