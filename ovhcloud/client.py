@@ -10,8 +10,6 @@ from ovhcloud.version import VersionCommand
 
 class OVHClient(object):
 
-    log = logging.getLogger(__name__)
-
     _action_cls = [VersionCommand, ApiCacheCommand]
 
     def __init__(self, args, ovh_client=None):
@@ -49,11 +47,9 @@ class OVHClient(object):
             logging.basicConfig(level=getattr(self._args, 'log_level'))
         except AttributeError:
             logging.basicConfig(level='WARNING')
+        self.log = logging.getLogger(__name__)
 
     def action(self):
-        # first connect to see if we are authorized
-        # self._connect()
-        # search for the group or the command and call the associated action
         command_cls_action = self._actions.get(self._args.group_or_command)
         command_cls_action.action()
 

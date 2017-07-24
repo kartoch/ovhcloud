@@ -1,13 +1,10 @@
+from unittest.mock import Mock
+
 import ovh
-import pytest
 
 from ovhcloud.client import OVHClient
 
-test_data = ovh.client.ENDPOINTS.keys()
 
-
-@pytest.mark.parametrize("endpoint", test_data)
-def test_cache_command(endpoint):
-    ovh_client = ovh.Client(endpoint=endpoint)
-    with pytest.raises(SystemExit):
-        OVHClient(['cache'], ovh_client).action()
+def test_cache_command():
+    ovh_client = Mock(ovh.Client)
+    OVHClient(['cache'], ovh_client=ovh_client).action()

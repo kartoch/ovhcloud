@@ -1,5 +1,3 @@
-import sys
-
 import ovhcloud
 from ovhcloud.commands import Command
 
@@ -12,4 +10,3 @@ class VersionCommand(Command):
 
     def action(self):
         print(ovhcloud.__version__)
-        sys.exit(0)
