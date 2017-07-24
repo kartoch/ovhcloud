@@ -7,8 +7,12 @@ python:
   - "3.4"
   - "3.5"
   - "3.6"
+before_install:
+  cd ovhcloud
 install:
   pip install .
+before_script:
+  cd ovhcloud
 script:
   python setup test
 branches:
