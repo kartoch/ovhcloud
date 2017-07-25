@@ -1,10 +1,9 @@
 import argparse
 import logging
+import os
 import sys
 
-import ovh
-
-from ovhcloud.api_cache import ApiCacheCommand
+from ovhcloud.cache import ApiCacheCommand
 from ovhcloud.version import VersionCommand
 
 
@@ -12,12 +11,14 @@ class OVHClient(object):
 
     _action_cls = [VersionCommand, ApiCacheCommand]
 
-    def __init__(self, args, ovh_client=None):
+    DEFAULT_CONFIGURATION_DIR = os.path.expanduser('~/.ovhcloud/')
+
+    def __init__(self, args, _configuration_dir=None):
         self._actions = {cls.name: cls(self) for cls in self._action_cls}
         self._parse_arguments(args)
         for action in self._actions.values():
             action.set_logging()
-        self._ovh_client = ovh.Client() if ovh_client is None else ovh_client
+        self._configuration_dir = self.DEFAULT_CONFIGURATION_DIR if _configuration_dir is None else _configuration_dir
 
     def _parse_arguments(self, args):
         parser = argparse.ArgumentParser(prog='ovhcloud')
@@ -51,7 +52,7 @@ class OVHClient(object):
 
     def action(self):
         command_cls_action = self._actions.get(self._args.group_or_command)
-        command_cls_action.action()
+        return command_cls_action.action()
 
 
 def main():

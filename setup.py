@@ -42,7 +42,7 @@ setup(
 
     package_data={'ovhcloud': ['api.yaml']},
 
-    install_requires=['ovh==0.4.7', 'PyYAML==3.12'],
+    install_requires=['ovh==0.4.7'],
 
     tests_require=['pytest>=3.0.7', 'pytest-capturelog==0.7', 'mock>=2.0.0'],
 
