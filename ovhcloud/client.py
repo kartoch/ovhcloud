@@ -1,58 +1,46 @@
-import argparse
 import logging
 import os
 import sys
 
 from ovhcloud.cache import ApiCacheCommand
-from ovhcloud.version import VersionCommand
+from ovhcloud.generate_args import GenerateArguments
 
 
 class OVHClient(object):
-
-    _action_cls = [VersionCommand, ApiCacheCommand]
+    _action_cls = {
+        'cache': ApiCacheCommand
+    }
 
     DEFAULT_CONFIGURATION_DIR = os.path.expanduser('~/.ovhcloud/')
 
     def __init__(self, args, _configuration_dir=None):
-        self._actions = {cls.name: cls(self) for cls in self._action_cls}
+        self.configuration_dir = self.DEFAULT_CONFIGURATION_DIR if _configuration_dir is None else _configuration_dir
+        self._actions = {name: cls(self) for name, cls in self._action_cls.items()}
         self._parse_arguments(args)
         for action in self._actions.values():
             action.set_logging()
-        self._configuration_dir = self.DEFAULT_CONFIGURATION_DIR if _configuration_dir is None else _configuration_dir
 
-    def _parse_arguments(self, args):
-        parser = argparse.ArgumentParser(prog='ovhcloud')
-        log_group = parser.add_mutually_exclusive_group()
-        log_group.add_argument(
-            '-d', '--debug',
-            help="Print lots of debugging statements",
-            action="store_const", dest="log_level", const=logging.DEBUG,
-            default=logging.WARNING,
-        )
-        log_group.add_argument(
-            '-v', '--verbose',
-            help="Be verbose",
-            action="store_const", dest="log_level", const=logging.INFO,
-        )
-        log_group.add_argument("-l", "--log", dest="log_level",
-                               choices=['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'],
-                               help="Set the logging level")
-        subparsers = parser.add_subparsers(dest="group_or_command")
-        for k in self._actions.keys():
-            subparser = subparsers.add_parser(k)
-            self._actions[k].parser(subparser)
+    @property
+    def configuration_dir(self):
+        return self._configuration_dir
 
-        self._args = parser.parse_args(args)
+    @configuration_dir.setter
+    def configuration_dir(self, value):
+        self._configuration_dir = value
+        self._cache_file = os.path.join(self.configuration_dir, ApiCacheCommand.DEFAULT_ENDPOINTS_CACHE_FILENAME)
 
-        try:
-            logging.basicConfig(level=getattr(self._args, 'log_level'))
-        except AttributeError:
-            logging.basicConfig(level='WARNING')
-        self.log = logging.getLogger(__name__)
+    @property
+    def cache_file(self):
+        return self._cache_file
+
+    def _parse_arguments(self, args: str):
+        p = GenerateArguments(args, self._actions, self)
+        self._args = p.args
+        self._log = logging.getLogger(__name__)
 
     def action(self):
         command_cls_action = self._actions.get(self._args.group_or_command)
-        return command_cls_action.action()
+        command_cls_action.action()
 
 
 def main():

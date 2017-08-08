@@ -1,29 +1,27 @@
 import os
-from shutil import copyfile
+import tempfile
+
+import pytest
 
 from ovhcloud import cache
 from ovhcloud.client import OVHClient
 
-try:
-    from unittest.mock import Mock
-except ImportError:
-    from mock import Mock
 
-import tempfile
-
-
-def test_cache_command_with_cached_file():
+@pytest.mark.slow
+def test_cache_command():
     temp_dir = tempfile.mkdtemp()
-    copyfile(cache.ApiCacheCommand.DEFAULT_ENDPOINTS_CACHE_FILENAME,
-             os.path.join(temp_dir, cache.ApiCacheCommand.DEFAULT_ENDPOINTS_CACHE_FILENAME))
-    assert not OVHClient(['cache'], _configuration_dir=temp_dir).action()
-
-
-def test_cache_command_without_cached_file():
-    temp_dir = tempfile.mkdtemp()
-    assert OVHClient(['cache'], _configuration_dir=temp_dir).action()
+    OVHClient(['cache'], _configuration_dir=temp_dir).action()
     assert os.path.isfile(os.path.join(temp_dir, cache.ApiCacheCommand.DEFAULT_ENDPOINTS_CACHE_FILENAME))
 
 
+def test_no_argument():
+    temp_dir = tempfile.mkdtemp()
+    with pytest.raises(SystemExit) as excinfo:
+        OVHClient([], _configuration_dir=temp_dir).action()
+    assert excinfo.value.code == 1
+
+
 def test_version_command():
-    OVHClient(['version']).action()
+    with pytest.raises(SystemExit) as excinfo:
+        OVHClient(['--version'], _configuration_dir=os.getcwd()).action()
+    assert excinfo.value.code == 0
