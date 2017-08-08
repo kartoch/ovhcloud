@@ -1,11 +1,7 @@
 language: python
 os:
-#  - osx # does not work at the present time: travis cannot install python (?!)
   - linux
 python:
-  - "2.7"
-  - "3.4"
-  - "3.5"
   - "3.6"
 install:
   pip install .
