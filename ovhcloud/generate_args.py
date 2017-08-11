@@ -38,8 +38,10 @@ class GenerateArguments(object):
         self._parser.add_argument(
             '-d', '--debug',
             help="Print lots of debugging statements",
-            action="store_const", dest="log_level", const=logging.DEBUG,
-            default=logging.WARNING,
+            action="store_const",
+            dest="log_level",
+            const=logging.DEBUG,
+            default=logging.WARNING
         )
 
         # parse endpoint flag

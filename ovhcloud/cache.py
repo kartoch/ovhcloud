@@ -1,9 +1,11 @@
 import io
 import json
+import os
 from argparse import ArgumentParser
 
 import ovh
 
+import ovhcloud
 from ovhcloud.commands import Command
 
 
@@ -39,7 +41,9 @@ class ApiCacheCommand(Command):
         for endpoint in ovh.client.ENDPOINTS.keys():
             content[endpoint] = self._download_endpoint(endpoint)
 
-        with io.open(self._client.cache_file, 'w', encoding='utf8') as f:
+        new_cache_save = os.path.join(self._client.configuration_dir, ovhcloud.DEFAULT_ENDPOINTS_CACHE_FILENAME)
+
+        with io.open(new_cache_save, 'w', encoding='utf8') as f:
             json.dump(content, f)
 
-        self._log.debug("wrote endpoints cache in file %s" % self._client.cache_file)
+        self._log.debug("wrote endpoints cache in file %s" % new_cache_save)

@@ -3,7 +3,7 @@ import tempfile
 
 import pytest
 
-from ovhcloud import cache
+import ovhcloud
 from ovhcloud.client import OVHClient
 
 
@@ -11,7 +11,7 @@ from ovhcloud.client import OVHClient
 def test_cache_command():
     temp_dir = tempfile.mkdtemp()
     OVHClient(['cache'], _configuration_dir=temp_dir).action()
-    assert os.path.isfile(os.path.join(temp_dir, cache.ApiCacheCommand.DEFAULT_ENDPOINTS_CACHE_FILENAME))
+    assert os.path.isfile(os.path.join(temp_dir, ovhcloud.DEFAULT_ENDPOINTS_CACHE_FILENAME))
 
 
 def test_no_argument():

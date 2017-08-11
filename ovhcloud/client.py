@@ -1,4 +1,5 @@
 import logging
+import os
 import sys
 
 import ovhcloud
@@ -13,7 +14,13 @@ class OVHClient(object):
     }
 
     def __init__(self, args, _configuration_dir=None):
-        self.configuration_dir = ovhcloud.DEFAULT_CONFIGURATION_DIR if _configuration_dir is None else _configuration_dir
+        self._configuration_dir = ovhcloud.DEFAULT_CONFIGURATION_DIR \
+            if _configuration_dir is None else _configuration_dir
+
+        cache_file = os.path.join(self._configuration_dir, ovhcloud.DEFAULT_ENDPOINTS_CACHE_FILENAME)
+
+        self._cache_file = cache_file if os.path.isfile(cache_file) else ovhcloud.DEFAULT_ENDPOINTS_API_CACHE
+
         self._actions = {name: cls(self) for name, cls in self._action_cls.items()}
         self._parse_arguments(args)
         for action in self._actions.values():
@@ -22,11 +29,6 @@ class OVHClient(object):
     @property
     def configuration_dir(self):
         return self._configuration_dir
-
-    @configuration_dir.setter
-    def configuration_dir(self, value):
-        self._configuration_dir = value
-        self._cache_file = ovhcloud.DEFAULT_ENDPOINTS_API_CACHE
 
     @property
     def cache_file(self):
