@@ -48,6 +48,8 @@ setup(
                    'pytest-capturelog>=0.7',
                    'coverage>=4.4.0'],
 
+    include_package_data=True,
+
     entry_points={
         'console_scripts': [
             'ovhcloud=client:main',

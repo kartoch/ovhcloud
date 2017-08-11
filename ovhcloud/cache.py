@@ -9,8 +9,6 @@ from ovhcloud.commands import Command
 
 class ApiCacheCommand(Command):
 
-    DEFAULT_ENDPOINTS_CACHE_FILENAME = 'endpoints_cache.json'
-
     def parser(self, parser: ArgumentParser):
         pass
 

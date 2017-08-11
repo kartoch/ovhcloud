@@ -15,13 +15,12 @@ def test_cache_command():
 
 
 def test_no_argument():
-    temp_dir = tempfile.mkdtemp()
     with pytest.raises(SystemExit) as excinfo:
-        OVHClient([], _configuration_dir=temp_dir).action()
+        OVHClient([]).action()
     assert excinfo.value.code == 1
 
 
 def test_version_command():
     with pytest.raises(SystemExit) as excinfo:
-        OVHClient(['--version'], _configuration_dir=os.getcwd()).action()
+        OVHClient(['--version']).action()
     assert excinfo.value.code == 0
